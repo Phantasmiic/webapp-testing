@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Dropdown Example</title>
+
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript">
+  {% raw %}
+  
+  $( function() {
+  $(document).ready(function() {
+	alert('Loaded!');
+	});
+    $( ".widget input[type=submit], .widget a, .widget button" ).button();
+    $( "button, input, a" ).click( function( event ) {
+      event.preventDefault();
+    } );
+  } );
+  
+  $( function() {
+    $( "input" ).checkboxradio();
+  } );
+  
+  $(document).ready(function(){
+    $("#hide").click(function(){
+        $("p").hide();
+    });
+    $("#show").click(function(){
+        $("p").show();
+    });
+	});
+	
+  $( function() {
+    $( "#datepicker" ).datepicker();
+    } );
+  
+  {% endraw %}
+</script>
+
+</head>
+<body>
+  <p>Select functionality from the list.</p>
+  <form id="form1" action="/login" method="POST" enctype="multipart/form-data">
+    <select id="mySelect" name = "function">
+      <option value=""disable selected = "selected">Select your option</option>
+      <option value="StickIn">Sticddk In</option>
+      <option value="StickOut">Stick Out</option>
+      <option value="BoomUp">Boom Up</option>
+      <option value="BoomDown">Boom Down</option>
+    </select>
+    <input type="submit" value="Submit">
+  </form>
+  <p>When you select a new car, a function is triggered which outputs the value of the selected car.</p>
+  <div id="result">
+    {% if function is defined %}
+        You have selected: {{ function }}
+		{% if function == ('StickIn') %}
+			hi
+		{% endif %}
+    {% endif %}
+  </div>
+  <div>
+		<form method="POST" action = '/data' id="form">
+			<button>Post</button>
+		</form>
+  </div>
+  
+  <div class="widget">
+	  <h1>Widget Buttons</h1>
+	  <button>A button element</button>
+	 
+	  <input type="submit" value="A submit button">
+	 
+	  <a href="#">An anchor</a>
+  </div>
+  
+   <h2>Radio Group</h2>
+	  <fieldset>
+		<legend>Select a Location: </legend>
+		<label for="radio-1">New York</label>
+		<input type="radio" name="radio-1" id="radio-1">
+		<label for="radio-2">Paris</label>
+		<input type="radio" name="radio-1" id="radio-2">
+		<label for="radio-3">London</label>
+		<input type="radio" name="radio-1" id="radio-3">
+	  </fieldset>
+	 
+      <p>Date: <input type="text" id="datepicker"></p>
+
+	  <p>If you click on the "Hide" button, I will disappear.</p>
+
+	  <button id="hide">Hide</button>
+	  <button id="show">Show</button>
+</body>
+</html>
