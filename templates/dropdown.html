@@ -8,92 +8,84 @@
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-<script type="text/javascript">
-  {% raw %}
-  
-  $( function() {
-  $(document).ready(function() {
-	alert('Loaded!');
-	});
-    $( ".widget input[type=submit], .widget a, .widget button" ).button();
-    $( "button, input, a" ).click( function( event ) {
-      event.preventDefault();
-    } );
-  } );
-  
-  $( function() {
-    $( "input" ).checkboxradio();
-  } );
-  
-  $(document).ready(function(){
-    $("#hide").click(function(){
-        $("p").hide();
-    });
-    $("#show").click(function(){
-        $("p").show();
-    });
-	});
-	
-  $( function() {
-    $( "#datepicker" ).datepicker();
-    } );
-  
-  {% endraw %}
-</script>
+
 
 </head>
+
+
 <body>
-  <p>Select functionality from the list.</p>
+
+  <p>Select a new car from the list.</p>
   <form id="form1" action="/login" method="POST" enctype="multipart/form-data">
-    <select id="mySelect" name = "function">
-      <option value=""disable selected = "selected">Select your option</option>
-      <option value="StickIn">Sticddk In</option>
-      <option value="StickOut">Stick Out</option>
-      <option value="BoomUp">Boom Up</option>
-      <option value="BoomDown">Boom Down</option>
+    <select id="mySelect" name = "cars">
+      <option value="Audi">Audi</option>
+      <option value="BMW">BMW</option>
+      <option value="Mercedes">Mercedes</option>
+      <option value="Volvo">Volvo</option>
     </select>
-    <input type="submit" value="Submit">
+    <input id = "submitButton" type="submit" value="Submit">
   </form>
-  <p>When you select a new car, a function is triggered which outputs the value of the selected car.</p>
-  <div id="result">
-    {% if function is defined %}
-        You have selected: {{ function }}
-		{% if function == ('StickIn') %}
-			hi
-		{% endif %}
-    {% endif %}
-  </div>
-  <div>
-		<form method="POST" action = '/data' id="form">
-			<button>Post</button>
-		</form>
-  </div>
-  
-  <div class="widget">
-	  <h1>Widget Buttons</h1>
-	  <button>A button element</button>
-	 
-	  <input type="submit" value="A submit button">
-	 
-	  <a href="#">An anchor</a>
-  </div>
-  
-   <h2>Radio Group</h2>
-	  <fieldset>
-		<legend>Select a Location: </legend>
-		<label for="radio-1">New York</label>
-		<input type="radio" name="radio-1" id="radio-1">
-		<label for="radio-2">Paris</label>
-		<input type="radio" name="radio-1" id="radio-2">
-		<label for="radio-3">London</label>
-		<input type="radio" name="radio-1" id="radio-3">
-	  </fieldset>
-	 
+
       <p>Date: <input type="text" id="datepicker"></p>
 
 	  <p>If you click on the "Hide" button, I will disappear.</p>
 
 	  <button id="hide">Hide</button>
 	  <button id="show">Show</button>
+	  
+	  <script type="text/javascript">
+	  {% raw %}
+	  $(document).ready(function() {
+		  $(function() {
+		  $(document).ready(function() {
+			alert('Loaded!');
+			});
+			$( ".widget input[type=submit], .widget a, .widget button" ).button();
+			$( "button, input, a" ).click( function( event ) {
+			  event.preventDefault();
+			} );
+		  } );
+		  
+
+		  
+		  $(document).ready(function(){
+			$("#hide").click(function(){
+				$("p").hide();
+			});
+			
+			$("#show").click(function() {
+				$("p").show();
+			});
+		   });
+			
+			
+		  $(function() { 
+			 $("#submitButton").click(function(){
+				//$.post('/login', {'hi':'dadada'});
+
+				$.ajax({
+					url: '/login',
+					data: JSON.stringify({'hello':'dadad'}),
+					dataType: 'json',
+					type: 'POST',
+					contentType: "application/json",
+
+					success: function(response){
+						console.log(response);
+						},
+					error: function(error){
+						console.log(error);
+						}
+					});				
+			
+				});
+			
+			
+			});
+			
+		
+	});
+	  {% endraw %}
+</script>
 </body>
 </html>
