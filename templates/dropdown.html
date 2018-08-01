@@ -5,34 +5,103 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Dropdown Example</title>
 
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" 
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+	<style>
+	
+		.container-fluid {
+		padding: 15px;
+	}
+	</style>
 
 
 </head>
 
 
 <body>
+    <div class="container">
 
-  <p>Select a new car from the list.</p>
-  <form id="form1" action="/login" method="POST" enctype="multipart/form-data">
-    <select id="mySelect" name = "cars">
-      <option value="Audi">Audi</option>
-      <option value="BMW">BMW</option>
-      <option value="Mercedes">Mercedes</option>
-      <option value="Volvo">Volvo</option>
-    </select>
-    <input id = "submitButton" type="submit" value="Submit">
-  </form>
+      <!-- Static navbar -->
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Project name</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#">Home</a></li>
+              <li><a href="#">About</a></li>
+              <li><a href="#">Contact</a></li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="#">Action</a></li>
+                  <li><a href="#">Another action</a></li>
+                  <li><a href="#">Something else here</a></li>
+                  <li role="separator" class="divider"></li>
+                  <li class="dropdown-header">Nav header</li>
+                  <li><a href="#">Separated link</a></li>
+                  <li><a href="#">One more separated link</a></li>
+                </ul>
+              </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li class="active"><a href="./">Default <span class="sr-only">(current)</span></a></li>
+              <li><a href="../navbar-static-top/">Static top</a></li>
+              <li><a href="../navbar-fixed-top/">Fixed top</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div><!--/.container-fluid -->
+      </nav>
 
-      <p>Date: <input type="text" id="datepicker"></p>
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <h1>Autotune Tool</h1>
+        <p>Alpha Version</p>	
+      </div>
 
-	  <p>If you click on the "Hide" button, I will disappear.</p>
+     <div class="container-fluid" style ='background-color: grey'>
+	
 
-	  <button id="hide">Hide</button>
-	  <button id="show">Show</button>
+
 	  
+	  <p>Select a new car from the list.</p>
+	  <form id="form1" action="/login" method="POST" enctype="multipart/form-data">
+		<select id="mySelect" name = "cars">
+		  <option value="StickIn">StickIn</option>
+		  <option value="StickOut">Stick Out</option>
+		  <option value="BoomUp">Boom Up</option>
+		  <option value="BoomDown">Boom Down</option>
+		</select>
+		<input id = "submitButton" type="submit" value="Submit">
+	  </form>
+	
+	  <div id="dataFromPython">  </div>
+
+		  <button id="hide">Hide</button>
+		  <button id="show">Show</button>
+	</div><!--/.container-fluid -->
+
+	
+  </div> <!-- /container -->
+
 	  <script type="text/javascript">
 	  {% raw %}
 	  $(document).ready(function() {
@@ -63,9 +132,11 @@
 			 $("#submitButton").click(function(){
 				//$.post('/login', {'hi':'dadada'});
 
+				var functionSelection = $( "#mySelect option:selected" ).text()
+				
 				$.ajax({
 					url: '/login',
-					data: JSON.stringify({'hello':'dadad'}),
+					data: JSON.stringify(functionSelection),
 					dataType: 'json',
 					type: 'POST',
 					contentType: "application/json",
@@ -78,10 +149,25 @@
 						}
 					});				
 			
+					$.getJSON('/processData/<data>', 
+						function(data) { 
+							console.log(data);
+							console.log('HEEDALLO');
+							
+							$('#dataFromPython').text(functionSelection);
+					});
+						
+				
+				
+					$(function() { 
+						//console.log($("#dataFromPython").html());
+					});
+				
 				});
 			
-			
 			});
+			
+
 			
 		
 	});
